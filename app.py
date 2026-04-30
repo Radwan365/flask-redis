@@ -1,9 +1,15 @@
 from flask import Flask
 import redis
+import os
 
 app = Flask(__name__)
 
-r = redis.Redis(host='redis', port=6379, decode_responses=True)
+
+r = redis.Redis(
+    host=os.environ.get('REDIS_HOST', 'redis'),
+    port=int(os.environ.get('REDIS_PORT', 6379)),
+    decode_responses=True
+)
 
 @app.route('/')
 def home():
